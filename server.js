@@ -15,9 +15,17 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/budget", {
-  useNewUrlParser: true,
-  useFindAndModify: false
+let PORT = process.env.PORT || 3000;
+let uristring=
+  process.env.MONGODB_URI ||
+  "mongodb://localhost/budget";
+
+mongoose.connect(uristring, function (err,res) {
+  if(err){
+    console.log (`ERROR connecting to ${uristring}.  Error: ${err}`);
+  } else {
+    console.log(`Succeeded connected to ${uristring}`);
+  }
 });
 
 // routes
